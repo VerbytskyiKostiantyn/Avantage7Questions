@@ -1,0 +1,306 @@
+﻿@using Avantage7Questions.Models.View_Models
+@model IndexVM
+
+<div class="text-center m-auto">
+    <div class="mt-5 mb-5 max-w-2xl mx-auto">
+        <div class="px-4 sm:px-0 flex justify-between items-center">
+            <a asp-controller="Home" asp-action="Storage" class="btn btn-primary">
+                <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.502 7.046h-2.5v-.928a2.122 2.122 0 0 0-1.199-1.954 1.827 1.827 0 0 0-1.984.311L3.71 8.965a2.2 2.2 0 0 0 0 3.24L8.82 16.7a1.829 1.829 0 0 0 1.985.31 2.121 2.121 0 0 0 1.199-1.959v-.928h1a2.025 2.025 0 0 1 1.999 2.047V19a1 1 0 0 0 1.275.961 6.59 6.59 0 0 0 4.662-7.22 6.593 6.593 0 0 0-6.437-5.695Z" />
+                </svg>
+            </a>
+            <h3 class="block mb-2 text-xl dark:text-white font-normal">Інформація про замовлення</h3>
+            <label style="background-color: @Model.Question.StatusBackgroundColor" class="text-white inline-flex items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">@Model.Question.CurrentStatus</label>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100">
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900 text-left">Id</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@Model.Question.Id</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900 text-left">Повне ім'я</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@Model.Question.Name @Model.Question.LastName</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900 text-left">Номер телефону</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@Model.Question.PhoneNumber</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900 text-left">Бажає отримати</dt>
+                    @if (Model.Question.Data == null) { Model.Question.Data = "-"; }
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@Model.Question.ItemsString</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900 text-left">Коментар</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@Model.Question.Data</dd>
+                </div>
+            </dl>
+            <div class="px-4 sm:px-0 mb-3">
+                <h3 class="block mb-2 text-lg dark:text-white font-normal">Стани</h3>
+            </div>
+            <div class="mb-5">
+                @foreach (QS qS in Model.Question.QS)
+                {
+                    <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900 text-left">@qS.Status.Description</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">@qS.Date</dd>
+                    </div>
+                }
+            </div>
+            @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Finished") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+            {
+                <div id="addStateDiv" class="mb-4" style="display: block;">
+                    <button type="button" id="addStateButton" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Додати стан</button>
+                </div>
+            }
+            <div id="StateButtonsDiv" class="mt-5" style="display: none;">
+
+                @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Seen") != null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Confirmed") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+                {
+                    <div class="flex justify-start my-2 items-center">
+                        <button id="confirmedButton" type="button" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-1/3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Підтверджено</button>
+                    </div>
+                }
+                @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Confirmed") != null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Ordered") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+                {
+                    <div class="flex justify-start my-2 items-center">
+                        <button id="orderedButton" type="button" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-1/3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Замовлено</button>
+                    </div>
+                }
+                @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Ordered") != null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Delivered") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+                {
+                    <div class="flex justify-start my-2 items-center">
+                        <button id="deliveredButton" type="button" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-1/3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Доставлено</button>
+                    </div>
+                }
+                @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Delivered") != null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Finished") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+                {
+                    <div class="flex justify-start my-2 items-center">
+                        <button id="finishedButton" type="button" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-1/3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Завершено</button>
+                    </div>
+                }
+                @if ((Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Finished") == null) && (Model.Question.QS.FirstOrDefault(s => s.Status.Name == "Canceled") == null))
+                {
+                    <div class="flex justify-start my-2 items-center">
+                        <button id="canceledButton" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm w-1/4 px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Відмінено</button>
+                    </div>
+                }
+
+            </div>
+
+            <div class="f-carousel my-3" id="myCarousel">
+                @foreach (Image image in Model.Images)
+                {
+                    var base64String = Convert.ToBase64String(image.ImageInBytes);
+                    var imgSrc = $"data:image/jpeg;base64,{base64String}";
+                    <div class="f-carousel__slide" data-thumb-src=@imgSrc>
+                        <a href=@imgSrc data-fancybox="gallery">
+                            <img src=@imgSrc width="580" height="300" />
+                        </a>
+                    </div>
+
+                }
+            </div>
+            @*
+            @if (Model.Images.Count != 0)
+            {
+            @* Carousel *@
+            @*
+            <div id="indicators-carousel" class="relative w-full mt-5" data-carousel="static">
+            <!-- Carousel wrapper -->
+            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+            @foreach (Image image in Model.Images)
+            {
+            var base64String = Convert.ToBase64String(image.ImageInBytes);
+            var imgSrc = $"data:image/jpeg;base64,{base64String}";
+            <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+            <img src=@imgSrc onclick="openFullscreen(this)" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            }@*
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+            <img src="/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="/docs/images/carousel/carousel-2.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="/docs/images/carousel/carousel-3.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 4 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="/docs/images/carousel/carousel-4.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 5 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="/docs/images/carousel/carousel-5.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            </div>
+
+            @*
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
+            @foreach (Image image in Model.Images)
+            {
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            }
+            </div>
+            <!-- Slider controls -->
+            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+            </svg>
+            <span class="sr-only">Previous</span>
+            </span>
+            </button>
+            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+            </svg>
+            <span class="sr-only">Next</span>
+            </span>
+            </button>
+
+
+            </div>
+            }
+            *@
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('addStateButton').addEventListener('click', function () {
+
+            document.getElementById('addStateDiv').style.display = 'none';
+
+
+            document.getElementById('StateButtonsDiv').style.display = 'block';
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#confirmedButton').on('click', function () {
+                $.ajax({
+                    url: '/Home/Info',
+                    type: 'POST',
+                    data: { state: "Confirmed", id: @Model.Question.Id},
+                    success: function (response) {
+                        window.location.href = `/Home/Info?id=${response}`;
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#orderedButton').on('click', function () {
+                $.ajax({
+                    url: '/Home/Info',
+                    type: 'POST',
+                    data: { state: "Ordered", id: @Model.Question.Id},
+                    success: function (response) {
+                        window.location.href = `/Home/Info?id=${response}`;
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#deliveredButton').on('click', function () {
+                $.ajax({
+                    url: '/Home/Info',
+                    type: 'POST',
+                    data: { state: "Delivered", id: @Model.Question.Id},
+                    success: function (response) {
+                        window.location.href = `/Home/Info?id=${response}`;
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#finishedButton').on('click', function () {
+                $.ajax({
+                    url: '/Home/Info',
+                    type: 'POST',
+                    data: { state: "Finished", id: @Model.Question.Id},
+                    success: function (response) {
+                        window.location.href = `/Home/Info?id=${response}`;
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#canceledButton').on('click', function () {
+                Swal.fire({
+                    title: "Ви впевнені що хочете відмінити замовлення?",
+                    text: "Ви не зможете цю дію скасувати!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Так, відмінити замовлення",
+                    cancelButtonText: "Назад"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/Home/Info',
+                            type: 'POST',
+                            data: { state: "Canceled", id: @Model.Question.Id},
+                            success:
+                                function (response) {
+                                    window.location.href = `/Home/Info?id=${response}`;
+                                }
+                        });
+                    }
+                });
+            });
+        });
+
+        // $(document).ready(function () {
+        //     $('#canceledButton').on('click', function () {
+        //         $.ajax({
+        //             url: '/Home/Info',
+        //             type: 'POST',
+        //             data: { state: "Canceled", id: @Model.Question.Id},
+        //             success:
+        //                 function (response) {
+        //                     window.location.href = `/Home/Info?id=${response}`;
+        //                 }
+        //         });
+        //     });
+        // });
+    </script>
+    <script>
+        Fancybox.bind('[data-fancybox="gallery"]', {
+            Carousel: {
+                transition: "slide",
+            },
+        });
+        const container = document.getElementById("myCarousel");
+        const options = {
+            Thumbs: {
+                type: "modern",
+            },
+            Dots: false
+        };
+
+        new Carousel(container, options, { Thumbs }, {
+            infinite: (carousel) => {
+                return carousel.pages.length > 2;
+            },
+        });
+    </script>
+}

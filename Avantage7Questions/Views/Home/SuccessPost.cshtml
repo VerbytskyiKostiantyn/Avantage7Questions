@@ -1,0 +1,8 @@
+﻿@using Avantage7Questions.Models.View_Models
+@model SuccessPostVM
+
+<div class="text-center m-auto">
+    <div class="mt-5 mb-5 max-w-2xl mx-auto">
+        <label class="block mb-2 text-lg dark:text-white">Ваш запит успішно відправлений на опрацювання.<br /> Щоб переглянути стан запиту введіть у відповідне поле Ваш номер телефону який Ви вказували в запиті, або натисніть <a asp-controller="Home" asp-action="Search" asp-route-number="@Model.Number" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">тут</a></label>
+    </div>
+</div>
