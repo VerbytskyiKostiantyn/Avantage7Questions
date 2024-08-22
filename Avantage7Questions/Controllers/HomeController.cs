@@ -11,6 +11,8 @@ using System.Text.Json.Serialization;
 using System.Linq;
 using Avantage7Questions.Services;
 using System.Text.RegularExpressions;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Avantage7Questions.Controllers
 {
@@ -19,12 +21,13 @@ namespace Avantage7Questions.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly QuestionsDbContext _db;
         private readonly TelegramBotService _bot;
-
-        public HomeController(ILogger<HomeController> logger, QuestionsDbContext db, TelegramBotService bot)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public HomeController(ILogger<HomeController> logger, QuestionsDbContext db, TelegramBotService bot, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _db = db;
             _bot = bot;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -42,26 +45,56 @@ namespace Avantage7Questions.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Question question, List<IFormFile> files)
+        public async Task<IActionResult> Index(Question question, List<IFormFile> files)
         {
             
             if (files != null)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
                 foreach (var file in files)
                 {
-                    using (var memoryStream = new MemoryStream())
+                    var uploads = Path.Combine(wwwRootPath, "images");
+                    if (!Directory.Exists(uploads))
                     {
-                        file.CopyTo(memoryStream);
-                        var Data = memoryStream.ToArray();
-
-                        Image image = new Image()
-                        {
-                            ImageInBytes = memoryStream.ToArray(),
-                            QuestionId = question.Id,
-                            Question = question
-                        };
-                        _db.Images.Add(image);
+                        Directory.CreateDirectory(uploads);
                     }
+                    
+                    var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    //var urlFriendlyPath = filePath.Replace("\\", "/");
+                    //urlFriendlyPath = ReplaceFirst(urlFriendlyPath, "/", "//");
+                    //urlFriendlyPath = @"file:///" + @urlFriendlyPath;
+
+
+                    Image image = new Image()
+                    {
+                        FilePath = @"\images\" + fileName,
+                        QuestionId = question.Id,
+                        Question = question
+                    };
+                    _db.Images.Add(image);
+
+
+                    //using (var memoryStream = new MemoryStream())
+                    //{
+                    //    file.CopyTo(memoryStream);
+                    //    var Data = memoryStream.ToArray();
+
+                    //    Image image = new Image()
+                    //    {
+                    //        ImageInBytes = memoryStream.ToArray(),
+                    //        QuestionId = question.Id,
+                    //        Question = question
+                    //    };
+                    //    _db.Images.Add(image);
+                    //}
                 }
             }
 
@@ -84,6 +117,15 @@ namespace Avantage7Questions.Controllers
             return RedirectToAction("SuccessPost", new { number = question.PhoneNumber });
         }
 
+        public string ReplaceFirst(string text, string searchChar, string replaceChar)
+        {
+            if (text == null) return null;
+
+            var index = text.IndexOf(searchChar);
+            if (index < 0) return text;
+
+            return text.Substring(0, index) + replaceChar + text.Substring(index + 1);
+        }
         public async Task SendToBot(string name, string phoneNumber, string description, string itemsString, bool isImages)
         {
             string img;
@@ -328,4 +370,5 @@ namespace Avantage7Questions.Controllers
         public bool allDay  { get; set; }
 
     }
+
 }

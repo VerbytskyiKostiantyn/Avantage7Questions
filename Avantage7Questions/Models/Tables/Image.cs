@@ -8,7 +8,7 @@ namespace Avantage7Questions.Models.Tables
         [Key]
         public int Id { get; set; }
         [Required]
-        public byte[] ImageInBytes { get; set; }
+        public string FilePath { get; set; }
         public int QuestionId {  get; set; }
 
         [ForeignKey("QuestionId")]

@@ -92,14 +92,11 @@
             <div class="f-carousel my-3" id="myCarousel">
                 @foreach (Image image in Model.Images)
                 {
-                    var base64String = Convert.ToBase64String(image.ImageInBytes);
-                    var imgSrc = $"data:image/jpeg;base64,{base64String}";
-                    <div class="f-carousel__slide" data-thumb-src=@imgSrc>
-                        <a href=@imgSrc data-fancybox="gallery">
-                            <img src=@imgSrc width="580" height="300" />
+                    <div class="f-carousel__slide" data-thumb-src=@image.FilePath>
+                        <a href=@image.FilePath data-fancybox="gallery">
+                            <img src=@image.FilePath width="580" height="300" />
                         </a>
                     </div>
-
                 }
             </div>
             @*
