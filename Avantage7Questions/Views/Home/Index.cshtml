@@ -1,6 +1,7 @@
 ﻿@using Avantage7Questions.Models.View_Models
 @model IndexVM
 
+
 <div class="text-center">
     <form enctype="multipart/form-data" method="post" class="max-w-sm mx-auto">
         <input asp-for="@Model.Question.Id" hidden />
@@ -30,37 +31,37 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Computer" type="checkbox" value="Комп'ютер" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Computer" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Computer" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Комп'ютер</label>
                 <span asp-validation-for="@Model.Question.Items.Computer"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Laptop" type="checkbox" value="Ноутбук" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Laptop" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Laptop" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ноутбук</label>
                 <span asp-validation-for="@Model.Question.Items.Laptop"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Mouse" type="checkbox" value="Мишка" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Mouse" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Mouse" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Мишка</label>
                 <span asp-validation-for="@Model.Question.Items.Mouse"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Keyboard" type="checkbox" value="Клавіатура" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Keyboard" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Keyboard" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Клавіатура</label>
                 <span asp-validation-for="@Model.Question.Items.Keyboard"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Monitor" type="checkbox" value="Монітор" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Monitor" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Monitor" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Монітор</label>
                 <span asp-validation-for="@Model.Question.Items.Monitor"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input asp-for="@Model.Question.Items.Phone" type="checkbox" value="Телефон" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input asp-for="@Model.Question.Items.Phone" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label asp-for="@Model.Question.Items.Phone" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Телефон</label>
                 <span asp-validation-for="@Model.Question.Items.Phone"></span>
             </div>
             <div class="flex items-center mb-4">
-                <input id="myCheckbox" asp-for="@Model.Question.Items.Another" type="checkbox" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input id="myCheckbox" asp-for="@Model.Question.Items.Another" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="myCheckbox" asp-for="@Model.Question.Items.Another" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Інше</label>
                 <span asp-validation-for="@Model.Question.Items.Another"></span>
             </div>
@@ -69,7 +70,13 @@
             <input asp-for="@Model.Question.Items.AnotherText" type="text" placeholder="Введіть ваш запит" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             <span asp-validation-for="@Model.Question.Items.AnotherText"></span>
         </div>
-        <div class="items-center mb-4">
+
+        <span id="itemsErrorMessage" class="font-medium mb-3 text-sm text-red-600 dark:text-red-500 field-validation-error" asp-validation-for="@Model.Question.Items"></span>
+
+        @*
+        <span class="font-medium mb-3 text-sm text-red-600 dark:text-red-500 field-validation-error" asp-validation-for="@Model.Question.Items.IsValid"></span>
+        *@
+        <div class="items-center mt-3 mb-4">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Додаткова інформація:</label>
             <textarea asp-for="@Model.Question.Data" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2" placeholder="Залиште коментар"></textarea>
         </div>
@@ -100,6 +107,75 @@
             } else {
                 container.style.display = 'none';
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var myCheckbox = document.getElementById('myCheckbox');
+            var inputFieldContainer = document.getElementById('inputFieldContainer');
+
+            if (myCheckbox.checked) {
+                inputFieldContainer.style.display = 'block';
+            } else {
+                inputFieldContainer.style.display = 'none';
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('input[type="checkbox"]').on('change', function () {
+                var isValid = $('input[type="checkbox"]').is(':checked');
+                if (!isValid) {
+                    $('.text-danger').hide();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#myCheckbox)');
+            var otherCheckbox = document.getElementById('myCheckbox');
+            var textInput = document.querySelector('#inputFieldContainer input');
+
+            let lastCheckedIndex = null;
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+
+                    var allChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                    var textValue = textInput.value.trim();
+                    var isEmpty = textValue.length === 0;
+
+
+                    if (!allChecked && isEmpty) {
+                        document.getElementById('itemsErrorMessage').style.display = 'block';
+                    } else {
+                        document.getElementById('itemsErrorMessage').style.display = 'none';
+                    }
+
+
+                    // if (lastCheckedIndex !== null && !checkboxes[lastCheckedIndex].checked) {
+                    //     lastCheckedIndex = null;
+                    // }
+
+                    // if (!allChecked && !this.checked) {
+                    //     document.getElementById('itemsErrorMessage').style.display = 'block';
+                    // }
+                });
+            });
+
+            textInput.addEventListener('input', function () {
+                var textValue = this.value.trim();
+                var isEmpty = textValue.length === 0;
+                var allChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                if (!isEmpty && otherCheckbox.checked && !allChecked) {
+                    document.getElementById('itemsErrorMessage').style.display = 'none';
+                } else if (isEmpty && otherCheckbox.checked && !allChecked) {
+                    document.getElementById('itemsErrorMessage').style.display = 'block';
+                }
+            });
+
         });
     </script>
 }

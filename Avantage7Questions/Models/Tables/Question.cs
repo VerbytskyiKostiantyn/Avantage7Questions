@@ -23,19 +23,19 @@ namespace Avantage7Questions.Models.Tables
         public int ItemsId { get; set; }
         public Items Items { get; set; }
         [ForeignKey("QuestionId")]
-        public ICollection<QS> QS { get; set; }
+        public ICollection<QS>? QS { get; set; }
 
         [NotMapped]
-        public string ItemsString { get; set; }
+        public string? ItemsString { get; set; }
         [NotMapped]
-        public string CurrentStatus { get; set; }
+        public string? CurrentStatus { get; set; }
         [NotMapped]
-        public string LastUpdateDate { get; set; }
+        public string? LastUpdateDate { get; set; }
         [NotMapped]
-        public string CreateQuestionDate { get; set; }
+        public string? CreateQuestionDate { get; set; }
         [NotMapped]
-        public bool IsPhotos { get; set; }
+        public bool? IsPhotos { get; set; }
         [NotMapped]
-        public string StatusBackgroundColor { get; set; }
+        public string? StatusBackgroundColor { get; set; }
 	}
 }

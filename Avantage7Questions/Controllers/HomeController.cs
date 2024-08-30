@@ -47,7 +47,17 @@ namespace Avantage7Questions.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(Question question, List<IFormFile> files)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                IndexVM indexVM = new IndexVM()
+                {
+                    Question = question,
+                    Images = new List<Image>(),
+                };
+                indexVM.Question.Items = new Items();
+                
+                return View();
+            }
             if (files != null)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -126,10 +136,10 @@ namespace Avantage7Questions.Controllers
 
             return text.Substring(0, index) + replaceChar + text.Substring(index + 1);
         }
-        public async Task SendToBot(string name, string phoneNumber, string description, string itemsString, bool isImages)
+        public async Task SendToBot(string name, string phoneNumber, string? description, string itemsString, bool? isImages)
         {
             string img;
-            if (isImages)
+            if (isImages != null)
             {
                 img = "так";
             }
@@ -246,35 +256,29 @@ namespace Avantage7Questions.Controllers
         public string getItemsString(Items items)
         {
             string itemsStack = "";
-            if (items.Computer != "false")
+            if (items.Computer)
             {
-                itemsStack += items.Computer;
-                itemsStack += " ";
+                itemsStack += "Комп'ютер ";
             }
-            if (items.Laptop != "false")
+            if (items.Laptop)
             {
-                itemsStack += items.Laptop;
-                itemsStack += " ";
+                itemsStack += "Ноутбук ";
             }
-            if (items.Monitor != "false")
+            if (items.Monitor)
             {
-                itemsStack += items.Monitor;
-                itemsStack += " ";
+                itemsStack += "Монітор ";
             }
-            if (items.Keyboard != "false")
+            if (items.Keyboard)
             {
-                itemsStack += items.Keyboard;
-                itemsStack += " ";
+                itemsStack += "Клавіатура ";
             }
-            if (items.Mouse != "false")
+            if (items.Mouse)
             {
-                itemsStack += items.Mouse;
-                itemsStack += " ";
+                itemsStack += "Мишка ";
             }
-            if (items.Phone != "false")
+            if (items.Phone)
             {
-                itemsStack += items.Phone;
-                itemsStack += " ";
+                itemsStack += "Телефон ";
             }
             if (items.AnotherText != "")
             {
