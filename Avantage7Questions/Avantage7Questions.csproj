@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+	
   <ItemGroup>
     <Content Remove="wwwroot\js\Tailwind.js" />
   </ItemGroup>

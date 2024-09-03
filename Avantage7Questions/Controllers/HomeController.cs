@@ -1,4 +1,4 @@
-using Avantage7Questions.Models;
+﻿using Avantage7Questions.Models;
 using Avantage7Questions.Models.Tables;
 using Avantage7Questions.Models.View_Models;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +32,7 @@ namespace Avantage7Questions.Controllers
 
         public IActionResult Index()
         {
+
             IndexVM indexVM = new IndexVM()
             {
                 Question = new Question(),
@@ -92,7 +93,6 @@ namespace Avantage7Questions.Controllers
                     _db.Images.Add(image);
                     question.IsPhotos = true;
 
-
                     //using (var memoryStream = new MemoryStream())
                     //{
                     //    file.CopyTo(memoryStream);
@@ -106,6 +106,7 @@ namespace Avantage7Questions.Controllers
                     //    };
                     //    _db.Images.Add(image);
                     //}
+
                 }
             }
 
@@ -123,7 +124,7 @@ namespace Avantage7Questions.Controllers
             _db.SaveChanges();
 
             SendToBot(question.Name + " " + question.LastName, question.PhoneNumber, question.Data, getItemsString(question.Items), question.IsPhotos);
-
+            ToFile(question.Name + " " + question.LastName, question.PhoneNumber, question.Data, getItemsString(question.Items), question.IsPhotos);
 
             return RedirectToAction("SuccessPost", new { number = question.PhoneNumber });
         }
@@ -142,15 +143,48 @@ namespace Avantage7Questions.Controllers
             string img;
             if (isImages != null)
             {
-                img = "���";
+                img = "так";
             }
             else
             {
-                img = "��";
+                img = "ні";
             }
-            string message = $"��'�: {name}\n����� ��������: {phoneNumber}\n���� ��������: {itemsString}\n���� ����������: {description}\n̳����� ��������: {img}";
+            string message = $"Ім'я: {name}\nНомер телефону: {phoneNumber}\nХоче замовити: {itemsString}\nОпис замовлення: {description}\nМістить картинки: {img}";
             long id = -1002157997326;
             await _bot.SendMessageAsync(id, message);
+        }
+        public void ToFile(string name, string phoneNumber, string? description, string itemsString, bool? isImages)
+        {
+            string filePath = "C:\\Users\\kosver\\source\\repos\\Avantage7Questions\\Avantage7Questions\\wwwroot\\File1.txt";
+            string img;
+            if (isImages != null)
+            {
+                img = "так";
+            }
+            else
+            {
+                img = "ні";
+            }
+
+            string text = $"Ім'я: {name}\nНомер телефону: {phoneNumber}\nХоче замовити: {itemsString}\nОпис замовлення: {description}\nМістить картинки: {img}";
+            try
+            {
+                // Отримуємо потік для запису
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    writer.WriteLine("----------------------------------------");
+                    // Заповнюємо файл рядком
+                    writer.WriteLine(text);
+                    writer.WriteLine("----------------------------------------");
+
+                }
+
+                Console.WriteLine("Файл успішно заповнений!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Помилка при роботі з файлом: {ex.Message}");
+            }
         }
         public IActionResult SuccessPost(string number)
         {
@@ -259,27 +293,27 @@ namespace Avantage7Questions.Controllers
             string itemsStack = "";
             if (items.Computer)
             {
-                itemsStack += "����'���� ";
+                itemsStack += "Комп'ютер ";
             }
             if (items.Laptop)
             {
-                itemsStack += "������� ";
+                itemsStack += "Ноутбук ";
             }
             if (items.Monitor)
             {
-                itemsStack += "������� ";
+                itemsStack += "Монітор ";
             }
             if (items.Keyboard)
             {
-                itemsStack += "��������� ";
+                itemsStack += "Клавіатура ";
             }
             if (items.Mouse)
             {
-                itemsStack += "����� ";
+                itemsStack += "Мишка ";
             }
             if (items.Phone)
             {
-                itemsStack += "������� ";
+                itemsStack += "Телефон ";
             }
             if (items.AnotherText != "")
             {

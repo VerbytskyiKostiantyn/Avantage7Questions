@@ -17,6 +17,7 @@ builder.Services.AddDbContext<QuestionsDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<QuestionsDbContext>();
 
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>()
