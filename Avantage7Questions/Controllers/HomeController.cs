@@ -90,6 +90,7 @@ namespace Avantage7Questions.Controllers
                         Question = question
                     };
                     _db.Images.Add(image);
+                    question.IsPhotos = true;
 
 
                     //using (var memoryStream = new MemoryStream())
